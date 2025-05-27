@@ -44,6 +44,7 @@ h1 {
   border-top: 1px solid #ccc;
   display: flex;
   align-items: center;
+  /* margin-top: 24px;  Removed to prevent controls from being pushed down */
 }
 
 #controls button,
@@ -67,32 +68,37 @@ body.pf-v5-c-page {
 
 .pf-v5-c-card__body#tree ul {
   list-style-type: none;
-  padding-left: 20px;
+  padding-left: 1.5em;
+}
+
+.pf-v5-c-card__body#tree li {
+  margin: 0.25em 0;
+  font-size: 1rem;
 }
 
 .pf-v5-c-card__body#tree li {
   margin: 5px 0;
 }
 
-.pf-v5-l-split {
+.pf-v6-l-split {
   display: flex;
   flex-direction: row;
   height: 100%;
 }
 
-.pf-v5-l-split__item.pf-m-fill {
+.pf-v6-l-split__item.pf-m-fill {
   flex: 1 1 0%;
   min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
-.pf-v5-l-split__item {
+.pf-v6-l-split__item {
   display: flex;
   flex-direction: column;
 }
 
-.pf-v5-l-split__item:last-child {
+.pf-v6-l-split__item:last-child {
   flex: 0 0 350px;
   max-width: 400px;
   min-width: 320px;
@@ -101,7 +107,7 @@ body.pf-v5-c-page {
   height: 100%;
 }
 
-.pf-v5-c-card__body#tree {
+.pf-v6-c-card__body#tree {
   flex: 1;
   overflow-y: auto;
 }
@@ -111,4 +117,59 @@ body.pf-v5-c-page {
   outline-offset: 2px;
   box-shadow: 0 0 0 4px #b3d3f9 !important;
   z-index: 2;
+}
+
+/* Accessibility: visually hidden class for screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+/* PatternFly Alert styling for important messages */
+.pf-v5-c-alert {
+  margin-bottom: 1rem;
+}
+
+/* Knowledge base tree styling for clarity */
+#tree ul {
+  list-style-type: none;
+  padding-left: 1.5em;
+}
+#tree li {
+  margin: 0.25em 0;
+  font-size: 1rem;
+}
+#tree strong {
+  color: #0066cc;
+}
+
+.pf-v6-c-card__footer#controls {
+  padding: 0 10px 10px 10px; /* Remove top padding */
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  min-height: 64px;
+  position: relative;
+  bottom: 24px; /* Move controls up visually */
+}
+
+/* Ensure the card fills the available height and the footer is not pushed out */
+.pf-v6-c-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.pf-v6-c-card__body#messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+.pf-v6-c-card__footer#controls {
+  flex-shrink: 0;
 }

@@ -5,38 +5,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Animal Guessing Game</title>
-  <!-- PatternFly 5 CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@5.0.0/dist/patternfly/patternfly.min.css">
+  <!-- PatternFly 6 CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@6.2.3/dist/patternfly/patternfly.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="pf-v5-c-page">
-  <header class="pf-v5-c-page__header">
-    <div class="pf-v5-c-page__header-brand">
-      <h1 class="pf-v5-c-title pf-m-2xl">Animal Guessing Game</h1>
+<body class="pf-v6-c-page">
+  <header class="pf-v6-c-page__header">
+    <div class="pf-v6-c-page__header-brand">
+      <h1 class="pf-v6-c-title pf-m-2xl">Animal Guessing Game</h1>
+      <button id="restartBtn" class="pf-v6-c-button pf-m-secondary" style="margin-left:2rem;">Restart</button>
     </div>
   </header>
-  <main class="pf-v5-c-page__main">
-    <section class="pf-v5-c-page__main-section">
-      <div class="pf-v5-l-split pf-m-gutter" style="height: calc(100vh - 120px);">
-        <div class="pf-v5-l-split__item pf-m-fill">
-          <div class="pf-v5-c-card pf-m-shadow-on-md" style="height:100%; display:flex; flex-direction:column;">
-            <div class="pf-v5-c-card__body" id="messages" style="flex:1; overflow-y:auto;"></div>
-            <div class="pf-v5-c-card__footer" id="controls"></div>
+  <main class="pf-v6-c-page__main">
+    <section class="pf-v6-c-page__main-section">
+      <div class="pf-v6-l-split pf-m-gutter" style="height: calc(100vh - 120px);">
+        <div class="pf-v6-l-split__item pf-m-fill">
+          <div class="pf-v6-c-card pf-m-shadow-on-md" style="height:100%; display:flex; flex-direction:column;">
+            <div class="pf-v6-c-card__body" id="messages" style="flex:1; overflow-y:auto;" aria-live="polite" aria-atomic="false" tabindex="0"></div>
+            <div class="pf-v6-c-card__footer" id="controls"></div>
           </div>
         </div>
-        <div class="pf-v5-l-split__item" style="min-width:320px; max-width:400px;">
-          <div class="pf-v5-c-card pf-m-shadow-on-md" style="height:100%;">
-            <div class="pf-v5-c-card__header">
-              <h2 class="pf-v5-c-title pf-m-lg">Knowledge Base</h2>
+        <nav class="pf-v6-l-split__item" aria-label="Knowledge Base" style="min-width:320px; max-width:400px;">
+          <div class="pf-v6-c-card pf-m-shadow-on-md" style="height:100%;">
+            <div class="pf-v6-c-card__header">
+              <h2 class="pf-v6-c-title pf-m-lg">Knowledge Base</h2>
             </div>
-            <div class="pf-v5-c-card__body" id="tree" style="overflow-y:auto;"></div>
+            <div class="pf-v6-c-card__body" id="tree" style="overflow-y:auto;"></div>
           </div>
-        </div>
+        </nav>
       </div>
     </section>
   </main>
-  <!-- PatternFly 5 JS (optional, for interactive components) -->
-  <script src="https://unpkg.com/@patternfly/patternfly@5.0.0/dist/patternfly/patternfly.min.js"></script>
+  <!-- PatternFly 6 JS (optional, for interactive components) -->
+  <script src="https://unpkg.com/@patternfly/patternfly@6.2.3/dist/patternfly/patternfly.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
