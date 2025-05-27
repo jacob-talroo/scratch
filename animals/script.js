@@ -1,14 +1,13 @@
-
 /* script.js */
 (() => {
   const tree = {
-    question: "does your animal have eyes?",
+    question: "does your animal have legs?",
     yes: {
-      question: "does your animal have legs?",
-      yes: { animal: "pig" },
-      no:  { animal: "snake" }
+      question: "does your animal have mane?",
+      yes: { animal: "horse" },
+      no:  { animal: "pig" }
     },
-    no: { animal: "earthworm" }
+    no: { animal: "fish" }
   };
 
   let node, parent, lastAnswer;
@@ -59,11 +58,42 @@
 
   function showYesNo() {
     clearControls();
+    const btns = [];
     ['yes', 'no'].forEach(ans => {
       const btn = document.createElement('button');
       btn.textContent = ans;
+      btn.className = 'pf-v5-c-button pf-m-primary focus-ring';
+      btn.style.marginRight = '10px';
+      btn.tabIndex = 0;
       btn.addEventListener('click', () => handleAnswer(ans));
       controlsEl.appendChild(btn);
+      btns.push(btn);
+    });
+    // Focus the first button
+    if (btns.length > 0) btns[0].focus();
+    // Keyboard navigation (left/right/enter)
+    controlsEl.addEventListener('keydown', function handler(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const active = document.activeElement;
+        const idx = btns.indexOf(active);
+        if (idx !== -1) {
+          let nextIdx;
+          if (e.key === 'ArrowRight') {
+            nextIdx = (idx + 1) % btns.length;
+          } else if (e.key === 'ArrowLeft') {
+            nextIdx = (idx - 1 + btns.length) % btns.length;
+          }
+          btns[nextIdx].focus();
+          e.preventDefault();
+        }
+      } else if (e.key === 'Enter') {
+        const active = document.activeElement;
+        const idx = btns.indexOf(active);
+        if (idx !== -1) {
+          btns[idx].click();
+          e.preventDefault();
+        }
+      }
     });
   }
 
@@ -80,9 +110,13 @@
   function askGuess() {
     addMessage(`is it a ${node.animal}?`);
     clearControls();
+    const btns = [];
     ['yes', 'no'].forEach(ans => {
       const btn = document.createElement('button');
       btn.textContent = ans;
+      btn.className = 'pf-v5-c-button pf-m-primary focus-ring';
+      btn.style.marginRight = '10px';
+      btn.tabIndex = 0;
       btn.addEventListener('click', () => {
         addMessage(ans, 'user');
         if (ans === 'yes') {
@@ -90,33 +124,84 @@
           clearControls();
           const restart = document.createElement('button');
           restart.textContent = "play again";
+          restart.className = 'pf-v5-c-button pf-m-secondary focus-ring';
+          restart.tabIndex = 0;
           restart.addEventListener('click', startGame);
           controlsEl.appendChild(restart);
+          restart.focus();
         } else {
           learnAnimal();
         }
       });
       controlsEl.appendChild(btn);
+      btns.push(btn);
+    });
+    // Focus the first button
+    if (btns.length > 0) btns[0].focus();
+    // Keyboard navigation (left/right/enter)
+    controlsEl.addEventListener('keydown', function handler(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const active = document.activeElement;
+        const idx = btns.indexOf(active);
+        if (idx !== -1) {
+          let nextIdx;
+          if (e.key === 'ArrowRight') {
+            nextIdx = (idx + 1) % btns.length;
+          } else if (e.key === 'ArrowLeft') {
+            nextIdx = (idx - 1 + btns.length) % btns.length;
+          }
+          btns[nextIdx].focus();
+          e.preventDefault();
+        }
+      } else if (e.key === 'Enter') {
+        const active = document.activeElement;
+        const idx = btns.indexOf(active);
+        if (idx !== -1) {
+          btns[idx].click();
+          e.preventDefault();
+        }
+      }
     });
   }
 
   function learnAnimal() {
     addMessage("oh no! what animal were you thinking of?");
     clearControls();
-    const input = document.createElement('input'); input.placeholder = "your animal";
-    const btn = document.createElement('button'); btn.textContent = "submit";
+    const input = document.createElement('input');
+    input.placeholder = "your animal";
+    input.className = 'pf-v5-c-form-control';
+    input.style.marginRight = '10px';
+    input.tabIndex = 0;
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') btn.click();
+    });
+    const btn = document.createElement('button');
+    btn.textContent = "submit";
+    btn.className = 'pf-v5-c-button pf-m-primary';
+    btn.tabIndex = 0;
     btn.addEventListener('click', () => {
       const animal = input.value.trim().toLowerCase(); if (!animal) return;
       addMessage(animal, 'user'); promptProperty(animal);
     });
     controlsEl.appendChild(input); controlsEl.appendChild(btn);
+    input.focus();
   }
 
   function promptProperty(userAnimal) {
     addMessage(`what does a ${userAnimal} have that a ${node.animal} doesn't?`);
     clearControls();
-    const input = document.createElement('input'); input.placeholder = "property (e.g., fur, gills)";
-    const btn = document.createElement('button'); btn.textContent = "submit";
+    const input = document.createElement('input');
+    input.placeholder = "property (e.g., fur, gills)";
+    input.className = 'pf-v5-c-form-control';
+    input.style.marginRight = '10px';
+    input.tabIndex = 0;
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') btn.click();
+    });
+    const btn = document.createElement('button');
+    btn.textContent = "submit";
+    btn.className = 'pf-v5-c-button pf-m-primary';
+    btn.tabIndex = 0;
     btn.addEventListener('click', () => {
       const prop = input.value.trim().toLowerCase(); if (!prop) return;
       addMessage(prop, 'user');
@@ -128,10 +213,14 @@
       renderTree();
       clearControls();
       const restart = document.createElement('button'); restart.textContent = "play again";
+      restart.className = 'pf-v5-c-button pf-m-secondary';
+      restart.tabIndex = 0;
       restart.addEventListener('click', startGame);
       controlsEl.appendChild(restart);
+      restart.focus();
     });
     controlsEl.appendChild(input); controlsEl.appendChild(btn);
+    input.focus();
   }
 
   document.addEventListener('DOMContentLoaded', startGame);

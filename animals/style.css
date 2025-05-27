@@ -1,29 +1,26 @@
-
 /* style.css */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
+
 h1 {
   text-align: center;
   padding: 20px;
 }
+
 .game-container {
   display: flex;
   height: calc(100vh - 80px);
 }
-.chat-area {
-  flex: 2;
-  border-right: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-}
+
 #messages {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
 }
+
 .message.bot {
   background: #eee;
   padding: 10px;
@@ -32,6 +29,7 @@ h1 {
   max-width: 80%;
   align-self: flex-start;
 }
+
 .message.user {
   background: #cfe9ff;
   padding: 10px;
@@ -40,27 +38,77 @@ h1 {
   max-width: 80%;
   align-self: flex-end;
 }
+
 #controls {
   padding: 10px;
   border-top: 1px solid #ccc;
   display: flex;
   align-items: center;
 }
+
 #controls button,
 #controls input {
   padding: 10px;
   margin-right: 10px;
   font-size: 16px;
 }
-.sidebar-area {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+
+/* Remove sidebar-area and chat-area custom layout, use sidebar for knowledge base */
+body.pf-v5-c-page {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
-.sidebar-area ul {
+
+/* Style the knowledge base sidebar to look distinct and always be on the right */
+.pf-v5-l-split__item:last-child .pf-v5-c-card {
+  background: #f8f8fa;
+}
+
+.pf-v5-c-card__body#tree ul {
   list-style-type: none;
   padding-left: 20px;
 }
-.sidebar-area li {
+
+.pf-v5-c-card__body#tree li {
   margin: 5px 0;
+}
+
+.pf-v5-l-split {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.pf-v5-l-split__item.pf-m-fill {
+  flex: 1 1 0%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-v5-l-split__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-v5-l-split__item:last-child {
+  flex: 0 0 350px;
+  max-width: 400px;
+  min-width: 320px;
+  border-left: 1px solid #e0e0e0;
+  background: #f8f8fa;
+  height: 100%;
+}
+
+.pf-v5-c-card__body#tree {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.focus-ring:focus {
+  outline: 3px solid #0066cc !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #b3d3f9 !important;
+  z-index: 2;
 }
