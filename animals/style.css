@@ -56,10 +56,34 @@ h1 {
   padding: 12px 8px 12px 8px;
   min-height: 64px;
   margin-top: 0;
-  z-index: 10;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 8px;
+  /* Ensure it floats above the chat */
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.04);
+}
+
+.pf-v6-c-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Ensure sticky child works */
+}
+
+.pf-v6-c-card__body#messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  /* Ensure chat scrolls behind controls */
+}
+
+.pf-v6-c-card__footer#controls {
+  flex-shrink: 0;
+  /* Remove any PatternFly footer overrides */
+  background: none;
+  border: none;
+  box-shadow: none;
 }
 
 #controls button,
@@ -209,22 +233,6 @@ body.pf-v5-c-page {
   color: #0066cc;
 }
 
-/* Ensure the card fills the available height and the footer is not pushed out */
-.pf-v6-c-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.pf-v6-c-card__body#messages {
-  flex: 1 1 auto;
-  overflow-y: auto;
-}
-
-.pf-v6-c-card__footer#controls {
-  flex-shrink: 0;
-}
-
 @media (max-width: 700px) {
   .pf-v6-l-split {
     flex-direction: column;
@@ -289,6 +297,19 @@ body.pf-v5-c-page {
     margin-left: 8px;
     padding: 0 8px;
     line-height: 1;
+  }
+
+  #controls {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    border-radius: 0;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
+  }
+  .pf-v6-c-card__body#messages {
+    padding-bottom: 80px !important;
   }
 }
 

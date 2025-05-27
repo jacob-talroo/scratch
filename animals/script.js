@@ -76,13 +76,13 @@
     if (!spacer) {
       spacer = document.createElement('div');
       spacer.id = 'chat-spacer';
-      // Set spacer height to double the controls area for safety
-      spacer.style.height = '130px'; // controls min-height is 64px, double for mobile keyboards
+      // Set spacer height to match the controls area for scroll targeting
+      spacer.style.height = '64px'; // controls min-height is 64px
       spacer.style.width = '100%';
       spacer.style.flexShrink = '0';
       messagesEl.appendChild(spacer);
     } else {
-      spacer.style.height = '130px'; // always ensure correct height
+      spacer.style.height = '64px'; // always ensure correct height
       messagesEl.appendChild(spacer); // move to end if needed
     }
     setTimeout(() => {
