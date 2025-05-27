@@ -71,7 +71,10 @@
       div.textContent = text;
     }
     messagesEl.appendChild(div);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    // --- Always scroll to bottom on new message ---
+    setTimeout(() => {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }, 10);
   }
 
   // --- Clear controls ---
@@ -79,25 +82,35 @@
     controlsEl.innerHTML = '';
   }
 
-  // --- Start or restart the game ---
-  function startGame() {
-    node = tree; parent = null; lastAnswer = null;
-    messagesEl.innerHTML = '';
-    addMessage("i know all the animals in the world! think of an animal, and i'll figure it out.", 'bot', true);
-    addMessage(node.question);
-    renderTree();
-    showYesNo();
-    focusFirstControl();
+  // --- Add persistent input at bottom like ChatGPT, but keep quick reply buttons for yes/no ---
+  function renderPersistentInput(placeholder = "Type your answer...", submitLabel = "Send", onSubmit) {
+    // Only render input for free text answers (not for yes/no steps)
+    clearControls();
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = placeholder;
+    input.className = 'pf-v5-c-form-control';
+    input.tabIndex = 0;
+    input.setAttribute('aria-label', placeholder);
+    input.style.flex = '1 1 auto';
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        onSubmit(input.value.trim());
+      }
+    });
+    controlsEl.appendChild(input);
+    input.focus();
   }
 
-  // --- Show yes/no buttons ---
+  // --- Show yes/no buttons (quick replies) ---
   function showYesNo() {
     clearControls();
     const btns = [];
     ['yes', 'no'].forEach(ans => {
       const btn = document.createElement('button');
       btn.textContent = ans;
-      btn.className = 'pf-v5-c-button pf-m-primary focus-ring';
+      btn.className = 'pf-v5-c-button pf-m-primary quick-reply focus-ring';
       btn.style.marginRight = '10px';
       btn.tabIndex = 0;
       btn.addEventListener('click', () => handleAnswer(ans));
@@ -130,6 +143,17 @@
     };
   }
 
+  // --- Start or restart the game ---
+  function startGame() {
+    node = tree; parent = null; lastAnswer = null;
+    messagesEl.innerHTML = '';
+    addMessage("i know all the animals in the world! think of an animal, and i'll figure it out.", 'bot', true);
+    addMessage(node.question);
+    renderTree();
+    showYesNo();
+    focusFirstControl();
+  }
+
   // --- Handle yes/no answer ---
   function handleAnswer(answer) {
     addMessage(answer, 'user'); parent = node; lastAnswer = answer; node = node[answer];
@@ -150,7 +174,7 @@
     ['yes', 'no'].forEach(ans => {
       const btn = document.createElement('button');
       btn.textContent = ans;
-      btn.className = 'pf-v5-c-button pf-m-primary focus-ring';
+      btn.className = 'pf-v5-c-button pf-m-primary quick-reply focus-ring';
       btn.style.marginRight = '10px';
       btn.tabIndex = 0;
       btn.addEventListener('click', () => {
@@ -202,48 +226,19 @@
   function learnAnimal() {
     addMessage("oh no! what animal were you thinking of?");
     clearControls();
-    const input = document.createElement('input');
-    input.placeholder = "your animal";
-    input.className = 'pf-v5-c-form-control';
-    input.style.marginRight = '10px';
-    input.tabIndex = 0;
-    input.setAttribute('aria-label', 'Enter your animal');
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') btn.click();
+    renderPersistentInput('your animal', 'Submit', (animal) => {
+      addMessage(animal, 'user');
+      promptProperty(animal.toLowerCase());
     });
-    const btn = document.createElement('button');
-    btn.textContent = "submit";
-    btn.className = 'pf-v5-c-button pf-m-primary';
-    btn.tabIndex = 0;
-    btn.addEventListener('click', () => {
-      const animal = input.value.trim().toLowerCase(); if (!animal) return;
-      addMessage(animal, 'user'); promptProperty(animal);
-    });
-    controlsEl.appendChild(input); controlsEl.appendChild(btn);
-    input.focus();
   }
 
   // --- Prompt for distinguishing property ---
   function promptProperty(userAnimal) {
     addMessage(`what does a ${userAnimal} have that a ${node.animal} doesn't?`);
     clearControls();
-    const input = document.createElement('input');
-    input.placeholder = "property (e.g., fur, gills)";
-    input.className = 'pf-v5-c-form-control';
-    input.style.marginRight = '10px';
-    input.tabIndex = 0;
-    input.setAttribute('aria-label', 'Enter distinguishing property');
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') btn.click();
-    });
-    const btn = document.createElement('button');
-    btn.textContent = "submit";
-    btn.className = 'pf-v5-c-button pf-m-primary';
-    btn.tabIndex = 0;
-    btn.addEventListener('click', () => {
-      const prop = input.value.trim().toLowerCase(); if (!prop) return;
+    renderPersistentInput('property (e.g., fur, gills)', 'Submit', (prop) => {
       addMessage(prop, 'user');
-      const question = `does your animal have ${prop}?`;
+      const question = `does your animal have ${prop.toLowerCase()}?`;
       parent[lastAnswer] = { question, yes: { animal: userAnimal }, no: { animal: node.animal } };
       addMessage("got it! i'll remember that for next time.", 'bot', true);
       const total = countAnimals(tree);
@@ -258,8 +253,6 @@
       controlsEl.appendChild(restart);
       restart.focus();
     });
-    controlsEl.appendChild(input); controlsEl.appendChild(btn);
-    input.focus();
   }
 
   // --- Restart button in header ---
@@ -269,6 +262,38 @@
     tree = JSON.parse(JSON.stringify(defaultTree));
     startGame();
   });
+
+  // --- Knowledge base toggle for mobile ---
+  const toggleKbBtn = document.getElementById('toggleKbBtn');
+  if (toggleKbBtn) {
+    toggleKbBtn.addEventListener('click', () => {
+      document.body.classList.toggle('show-knowledge-base');
+      if (document.body.classList.contains('show-knowledge-base')) {
+        setTimeout(() => {
+          document.getElementById('tree').focus();
+        }, 100);
+      }
+    });
+  }
+  // Hide knowledge base when clicking outside on mobile
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 700 && document.body.classList.contains('show-knowledge-base')) {
+      const sidebar = document.querySelector('.pf-v6-l-split__item:last-child');
+      const btn = document.getElementById('toggleKbBtn');
+      const closeBtn = document.getElementById('closeKbBtn');
+      if (sidebar && !sidebar.contains(e.target) && btn && !btn.contains(e.target)) {
+        document.body.classList.remove('show-knowledge-base');
+      }
+    }
+  });
+  // --- Close button for knowledge base on mobile ---
+  const closeKbBtn = document.getElementById('closeKbBtn');
+  if (closeKbBtn) {
+    closeKbBtn.addEventListener('click', () => {
+      document.body.classList.remove('show-knowledge-base');
+      toggleKbBtn && toggleKbBtn.focus();
+    });
+  }
 
   // --- Start game on load ---
   document.addEventListener('DOMContentLoaded', startGame);
