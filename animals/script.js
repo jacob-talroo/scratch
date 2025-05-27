@@ -71,10 +71,23 @@
       div.textContent = text;
     }
     messagesEl.appendChild(div);
-    // --- Always scroll to bottom on new message ---
+    // --- Ensure a blank spacer is always at the end for scroll targeting ---
+    let spacer = document.getElementById('chat-spacer');
+    if (!spacer) {
+      spacer = document.createElement('div');
+      spacer.id = 'chat-spacer';
+      // Set spacer height to double the controls area for safety
+      spacer.style.height = '130px'; // controls min-height is 64px, double for mobile keyboards
+      spacer.style.width = '100%';
+      spacer.style.flexShrink = '0';
+      messagesEl.appendChild(spacer);
+    } else {
+      spacer.style.height = '130px'; // always ensure correct height
+      messagesEl.appendChild(spacer); // move to end if needed
+    }
     setTimeout(() => {
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }, 10);
+      spacer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 0);
   }
 
   // --- Clear controls ---
