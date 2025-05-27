@@ -1,0 +1,66 @@
+
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+.game-container {
+  display: flex;
+  height: calc(100vh - 80px);
+}
+.chat-area {
+  flex: 2;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+#messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+.message.bot {
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-start;
+}
+.message.user {
+  background: #cfe9ff;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-end;
+}
+#controls {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+#controls button,
+#controls input {
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+}
+.sidebar-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+.sidebar-area ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+.sidebar-area li {
+  margin: 5px 0;
+}
