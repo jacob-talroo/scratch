@@ -234,6 +234,19 @@ body.pf-v5-c-page {
 }
 
 @media (max-width: 700px) {
+  #controls {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    border-radius: 0;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
+  }
+  .pf-v6-c-card__body#messages {
+    padding-bottom: 80px !important;
+  }
+
   .pf-v6-l-split {
     flex-direction: column;
   }
@@ -298,22 +311,22 @@ body.pf-v5-c-page {
     padding: 0 8px;
     line-height: 1;
   }
-
-  #controls {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 2000;
-    border-radius: 0;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
-  }
-  .pf-v6-c-card__body#messages {
-    padding-bottom: 80px !important;
-  }
 }
 
 @media (min-width: 701px) {
+  #controls {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-radius: 0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.04);
+  }
+  .pf-v6-c-card__body#messages {
+    padding-bottom: 0 !important;
+  }
+
   .knowledge-toggle-btn {
     display: none;
   }
