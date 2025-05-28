@@ -66,7 +66,8 @@
     if (isAlert) {
       div.className += ' pf-v5-c-alert pf-m-info';
       div.setAttribute('role', 'alert');
-      div.innerHTML = `<span class="pf-v5-c-alert__icon"><i class="fas fa-info-circle" aria-hidden="true"></i></span> <span class="pf-v5-c-alert__title">${text}</span>`;
+      // div.innerHTML = `<span class="pf-v5-c-alert__icon"><i class="fas fa-info-circle" aria-hidden="true"></i></span> <span class="pf-v5-c-alert__title">${text}</span>`;
+      div.innerHTML = `<span class="pf-v5-c-alert__icon"></span> <span class="pf-v5-c-alert__title">${text}</span>`;
     } else {
       div.textContent = text;
     }
