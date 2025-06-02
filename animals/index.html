@@ -8,6 +8,10 @@
   <!-- PatternFly 6 CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@patternfly/patternfly@6.2.3/patternfly.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0066cc">
+  <link rel="icon" type="image/png" sizes="32x32" href="animals_192.png">
+  <link rel="icon" type="image/svg+xml" href="animals.svg">
 </head>
 <body class="pf-v6-c-page">
   <header class="pf-v6-c-page__header">
@@ -41,5 +45,12 @@
   <!-- PatternFly 6 JS (optional, for interactive components) -->
   <script src="https://cdn.jsdelivr.net/npm/@patternfly/patternfly@6.2.3/patternfly.min.js"></script>
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+{
+  "name": "Animal Guessing Game",
+  "short_name": "Animals",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#0066cc",
+  "description": "A fun animal guessing game that learns as you play.",
+  "icons": [
+    {
+      "src": "animals.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "animals_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "animals_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
